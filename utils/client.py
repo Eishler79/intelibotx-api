@@ -1,18 +1,18 @@
-# utils/client_loader.py
+# utils/client.py
 
 import os
 from binance.client import Client
 
-# SOLO cargamos dotenv si estamos en desarrollo local
+# Cargar .env solo si no estamos en Render
 if os.getenv("ENV") != "production":
     from dotenv import load_dotenv
     load_dotenv()
 
-# Detectar entorno testnet/mainnet
+# Detectar entorno
 USE_TESTNET = os.getenv("USE_TESTNET", "false").lower() == "true"
 BINANCE_TESTNET_SPOT_BASE_URL = "https://testnet.binance.vision/api"
 
-# Seleccionar claves
+# Obtener claves del entorno
 if USE_TESTNET:
     API_KEY = os.getenv("BINANCE_API_KEY_TESTNET")
     API_SECRET = os.getenv("BINANCE_SECRET_KEY_TESTNET")
@@ -26,12 +26,10 @@ if not API_KEY or not API_SECRET:
 
 # Crear cliente
 client = Client(api_key=API_KEY, api_secret=API_SECRET, testnet=USE_TESTNET)
-
-# Cambiar URL para Testnet si aplica
 if USE_TESTNET:
     client.API_URL = BINANCE_TESTNET_SPOT_BASE_URL
 
-# Función auxiliar
+# Utilidad
 def get_price(symbol: str) -> float:
     ticker = client.get_symbol_ticker(symbol=symbol)
     return float(ticker['price'])
