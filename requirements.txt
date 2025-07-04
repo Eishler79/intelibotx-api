@@ -13,7 +13,13 @@ exceptiongroup==1.3.0
 fastapi==0.115.14
 frozenlist==1.7.0
 h11==0.16.0
+httpcore==1.0.9
+httpx==0.28.1
 idna==3.10
+Jinja2==3.1.6
+markdown-it-py==3.0.0
+MarkupSafe==3.0.2
+mdurl==0.1.2
 multidict==6.6.3
 numpy==2.0.2
 pandas==2.3.0
@@ -21,55 +27,24 @@ propcache==0.3.2
 pycryptodome==3.23.0
 pydantic==2.11.7
 pydantic_core==2.33.2
+Pygments==2.19.2
 python-binance==1.0.29
 python-dateutil==2.9.0.post0
+python-dotenv==1.1.1
 pytz==2025.2
 regex==2024.11.6
 requests==2.32.4
+rich==14.0.0
 six==1.17.0
 sniffio==1.3.1
 starlette==0.46.2
 ta==0.11.0
+ta-lib==0.6.4
+typing-extensions==4.14.0
 typing-inspection==0.4.1
-typing_extensions==4.14.0
 tzdata==2025.2
 tzlocal==5.3.1
 urllib3==2.5.0
 uvicorn==0.35.0
 websockets==15.0.1
 yarl==1.20.1
-# --- Base ---
-python-binance==1.0.29
-pandas==2.3.0
-numpy==2.0.2
-
-# --- Análisis técnico ---
-ta==0.11.0
-
-# --- Backend (FastAPI) ---
-fastapi==0.115.14
-uvicorn==0.35.0
-pydantic==2.11.7
-pydantic-settings==2.2.1
-starlette==0.46.2
-
-# --- Visualización (opcional local) ---
-rich==13.7.1
-
-# --- Testing ---
-pytest==7.4.4
-httpx==0.27.0
-
-# --- NLP / Análisis de noticias (opcional) ---
-beautifulsoup4==4.12.3
-lxml==5.2.1
-dateparser==1.2.2
-regex==2024.11.6
-python-dateutil==2.9.0.post0
-
-# --- Web / Async y otros ---
-requests==2.32.4
-aiohttp==3.12.13
-async-timeout==5.0.1
-websockets==15.0.1
-jinja2
