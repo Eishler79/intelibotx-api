@@ -72,3 +72,4 @@ requests==2.32.4
 aiohttp==3.12.13
 async-timeout==5.0.1
 websockets==15.0.1
+jinja2
