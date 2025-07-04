@@ -1,0 +1,35 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run FastAPI (Uvicorn)",
+      "type": "python",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": [
+        "main:app",
+        "--reload",
+        "--host", "127.0.0.1",
+        "--port", "8000"
+      ],
+      "cwd": "${workspaceFolder}",
+      "justMyCode": true,
+      "console": "integratedTerminal",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}",
+        "python.envFile": "${workspaceFolder}/.env"
+      }
+    },
+    {
+      "name": "Test SmartTradeService",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/smarttrade/test_smart_trade_service.py",
+      "console": "integratedTerminal",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}",
+        "python.envFile": "${workspaceFolder}/.env"
+      }
+    }
+  ]
+}
