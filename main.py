@@ -93,3 +93,5 @@ if __name__ == "__main__":
     from execution.smart_trade_session import SmartTradeSession
     session = SmartTradeSession(symbol="BTCUSDT", interval="15m", stake=20.0)
     session.run()
+
+print("🔍 Todas las variables:", dict(os.environ))
