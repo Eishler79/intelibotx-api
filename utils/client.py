@@ -15,7 +15,7 @@ BINANCE_TESTNET_SPOT_BASE_URL = "https://testnet.binance.vision/api"
 # Obtener claves del entorno
 if USE_TESTNET:
     API_KEY = os.getenv("BINANCE_TESTNET_API_KEY")
-    API_SECRET = os.getenv("BINANCE_TESTNET_SECRET_KEY")
+    API_SECRET = os.getenv("BINANCE_TESTNET_API_SECRET")
 else:
     API_KEY = os.getenv("BINANCE_API_KEY_MAINNET")
     API_SECRET = os.getenv("BINANCE_SECRET_KEY_MAINNET")
