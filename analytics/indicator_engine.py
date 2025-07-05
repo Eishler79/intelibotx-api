@@ -3,7 +3,6 @@
 import pandas as pd
 import numpy as np
 import ta
-import talib
 
 MIN_REQUIRED_BARS = 50
 
