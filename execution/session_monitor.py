@@ -4,7 +4,7 @@ import time
 from execution.trade_executor_service import TradeExecutorService
 from smarttrade.smart_trade_service import SmartTradeService
 from smarttrade.models.trade_state import TradeState
-from utils.client_loader import get_price
+from utils.client import get_price
 
 class SessionMonitor:
     def __init__(self, symbol: str, smart_trade_service: SmartTradeService, trade_state: TradeState = None, interval: float = 10.0):
