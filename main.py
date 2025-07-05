@@ -1,6 +1,5 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from routes import dashboard
 from fastapi.staticfiles import StaticFiles
 from dotenv import load_dotenv
 from fastapi.templating import Jinja2Templates
@@ -24,7 +23,7 @@ app = FastAPI(
 )
 
 # ================================
-# Middleware CORS reforzado
+# Middleware CORS reforzado (⚠️ justo después de app)
 # ================================
 app.add_middleware(
     CORSMiddleware,
@@ -32,17 +31,11 @@ app.add_middleware(
         "http://localhost:5173",
         "https://intelibotx-ui.vercel.app",
     ],
-    allow_origin_regex=".*",  # <- Esto permite cualquier origen como fallback
+    allow_origin_regex=".*",  # fallback
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-# ================================
-# Incluir rutas
-# ================================
-app.include_router(dashboard.router)
-app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # ================================
 # Configuración de templates HTML
@@ -50,8 +43,27 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
 # ================================
-# DASHBOARD HTML
+# INCLUIR TODOS LOS ROUTERS (después del middleware)
 # ================================
+from routes import dashboard
+from routes.spot import router as spot_router
+from routes.futures import router as futures_router
+from routes.testnet import router as testnet_router
+from routes import test_signature
+from routes.smart_trade_routes import router as smart_trade_router
+
+app.include_router(dashboard.router)
+app.include_router(spot_router, prefix="/spot", tags=["spot"])
+app.include_router(futures_router, prefix="/futures", tags=["futures"])
+app.include_router(testnet_router, tags=["testnet"])
+app.include_router(test_signature.router)
+app.include_router(smart_trade_router, prefix="/api", tags=["smart-trade"])
+
+# ================================
+# Archivos estáticos y dashboard
+# ================================
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
 @app.get("/dashboard")
 def get_dashboard(request: Request):
     operations_path = Path("data/operations.json")
@@ -89,21 +101,6 @@ def get_dashboard(request: Request):
 @app.get("/")
 def read_root():
     return {"message": "Bienvenido a InteliBotX API 🚀"}
-
-# ================================
-# INCLUIR TODOS LOS ROUTERS
-# ================================
-from routes.spot import router as spot_router
-from routes.futures import router as futures_router
-from routes.testnet import router as testnet_router
-from routes import test_signature
-from routes.smart_trade_routes import router as smart_trade_router
-
-app.include_router(spot_router, prefix="/spot", tags=["spot"])
-app.include_router(futures_router, prefix="/futures", tags=["futures"])
-app.include_router(testnet_router, tags=["testnet"])
-app.include_router(test_signature.router)
-app.include_router(smart_trade_router, prefix="/api", tags=["smart-trade"])
 
 # ================================
 # RUN LOCAL OPCIONAL
