@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Request
-from routes import dashboard  # 👈 importa tu ruta nueva
+from fastapi.middleware.cors import CORSMiddleware
+from routes import dashboard
 from fastapi.staticfiles import StaticFiles
 from dotenv import load_dotenv
 from fastapi.templating import Jinja2Templates
@@ -21,8 +22,23 @@ app = FastAPI(
     title="InteliBotX API",
     version="0.1.0",
 )
+
+# ================================
+# Middleware CORS
+# ================================
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # <- puedes restringir luego a ["https://intelibotx-ui.vercel.app"]
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# ================================
+# Incluir rutas
+# ================================
 app.include_router(dashboard.router)
-app.mount("/static", StaticFiles(directory="static"), name="static")  # si usas CSS o JS local
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # ================================
 # Configuración de templates HTML
@@ -42,14 +58,12 @@ def get_dashboard(request: Request):
 
     operations = sorted(operations, key=lambda x: x["timestamp"], reverse=True)
 
-    # Resumen por símbolo
     summary_by_symbol = {}
     for op in operations:
         symbol = op["symbol"]
         if symbol not in summary_by_symbol:
             summary_by_symbol[symbol] = op
 
-    # Noticias y eventos simulados (puedes luego conectarlos a news_engine.py)
     news_list = [
         {"title": "⚡ ETF impacta BTC", "symbol": "BTC", "source": "Simulado"},
         {"title": "⚡ Regulation impacta ETH", "symbol": "ETH", "source": "Simulado"},
@@ -67,6 +81,7 @@ def get_dashboard(request: Request):
         "news_list": news_list,
         "economic_events": economic_events,
     })
+
 @app.get("/")
 def read_root():
     return {"message": "Bienvenido a InteliBotX API 🚀"}
@@ -87,7 +102,7 @@ app.include_router(test_signature.router)
 app.include_router(smart_trade_router, prefix="/api", tags=["smart-trade"])
 
 # ================================
-# RUN OPCIONAL
+# RUN LOCAL OPCIONAL
 # ================================
 if __name__ == "__main__":
     from execution.smart_trade_session import SmartTradeSession
